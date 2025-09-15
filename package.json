@@ -8,6 +8,7 @@
   },
   "type": "module",
   "scripts": {
+    "prepare" : "npm run build", 
     "build": "babel src --out-dir dist --copy-files",
     "test": "vitest",
     "lint": "eslint ./src --ext .js",
