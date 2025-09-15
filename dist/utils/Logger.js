@@ -4,11 +4,9 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.Logger = void 0;
-var _chalk = _interopRequireDefault(require("chalk"));
-function _interopRequireDefault(e) { return e && e.__esModule ? e : { default: e }; }
 function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == typeof i ? i : i + ""; }
-function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); } // src/utils/Logger.js
+function _toPrimitive(t, r) { if ("object" != typeof t || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != typeof i) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 class Logger {
   constructor({
     level = 'info',
@@ -25,42 +23,42 @@ class Logger {
     const now = new Date();
     const localTime = now.toLocaleTimeString('en-US', {
       hour12: false
-    }); // HH:MM:SS local
-    return _chalk.default.gray(`[${localTime}]`);
+    });
+    return `[${localTime}]`;
   }
   _prefix(levelLabel, emoji) {
-    return `${_chalk.default.blue('[CS2GSIz]')} ${_chalk.default.magenta(this.tag)} ${_chalk.default.bold(levelLabel)} ${emoji}`;
+    return `[CS2GSIz] ${this.tag} ${levelLabel} ${emoji}`;
   }
   log(message, ...args) {
     if (this.level < Logger.LEVELS.info) return;
-    console.log(this._timestamp(), this._prefix(_chalk.default.green('[INFO]'), '🎯'), message, ...args);
+    console.log(this._timestamp(), this._prefix('[INFO]', '🎯'), message, ...args);
   }
   verbose(message, ...args) {
     if (this.level < Logger.LEVELS.verbose) return;
-    console.log(this._timestamp(), this._prefix(_chalk.default.cyan('[VERBOSE]'), '🔍'), message, ...args);
+    console.log(this._timestamp(), this._prefix('[VERBOSE]', '🔍'), message, ...args);
   }
   warn(message, ...args) {
     if (this.level < Logger.LEVELS.warn) return;
-    console.warn(this._timestamp(), this._prefix(_chalk.default.yellow('[WARN]'), '⚠️'), message, ...args);
+    console.warn(this._timestamp(), this._prefix('[WARN]', '⚠️'), message, ...args);
   }
   error(message, ...args) {
     if (this.level < Logger.LEVELS.error) return;
-    console.error(this._timestamp(), this._prefix(_chalk.default.red('[ERROR]'), '❌'), message, ...args);
+    console.error(this._timestamp(), this._prefix('[ERROR]', '❌'), message, ...args);
   }
   event(eventName, {
     previously,
     current
   } = {}) {
     if (this.level < Logger.LEVELS.verbose) return;
-    let eventInfo = _chalk.default.yellow(eventName);
+    let eventInfo = eventName;
     if (previously !== undefined || current !== undefined) {
-      eventInfo += ` ${_chalk.default.cyan('(')}${_chalk.default.red(previously)}${_chalk.default.cyan(' → ')}${_chalk.default.green(current)}${_chalk.default.cyan(')')}`;
+      eventInfo += ` (${previously} → ${current})`;
     }
-    console.log(this._timestamp(), _chalk.default.magenta('[EVENT]'), _chalk.default.yellow('🎮'), eventInfo);
+    console.log(this._timestamp(), '[EVENT]', '🎮', eventInfo);
   }
   raw(json) {
     if (this.level < Logger.LEVELS.verbose) return;
-    console.log(this._timestamp(), _chalk.default.gray('[RAW]'), _chalk.default.gray('📥 JSON received:'), JSON.stringify(json, null, 2));
+    console.log(this._timestamp(), '[RAW]', '📥 JSON received:', JSON.stringify(json, null, 2));
   }
   setLevel(newLevel) {
     var _Logger$LEVELS$newLev;
